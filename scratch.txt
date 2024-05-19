@@ -1,0 +1,220 @@
+    # Drawing Blocks and getting dimensions
+    for i in levels[current_level]['blocks']:
+        pygame.draw.rect(screen, black, i)
+        left = i[0]
+        right = i[0] + i[2]
+        top = i[1]
+        bottom = i[1] + i[3]
+
+        # Block Contacts
+        if bottom > y and y + cube_height > top and x + cube_width > left and x < right:
+
+            # Top Right corners
+            if x > left and y + cube_height < bottom:
+                top_overlap = right - x
+                side_overlap = y + cube_height - top
+                if side_overlap > top_overlap:
+                    x = right
+                    if not on_surface:
+                        hit_wall = True
+                else:
+                    y = top - cube_height
+                    velocity.y = 0
+                    falling = False
+                    on_surface = True
+
+            # Bottom Right corners
+            elif y > top and x > left:
+                bottom_overlap = right - x
+                side_overlap = bottom - y
+                if side_overlap > bottom_overlap:
+                    x = right
+                    if not on_surface:
+                        hit_wall = True
+                else:
+                    y = bottom
+                    hit_top = True
+
+            # Top Left Corners
+            elif x + cube_width < right and y + cube_height < bottom:
+                top_overlap = x + cube_width - left
+                side_overlap = y + cube_height - top
+                if side_overlap > top_overlap:
+                    x = left - cube_width
+                    if not on_surface:
+                        hit_wall = True
+                else:
+                    y = top - cube_height
+                    velocity.y = 0
+                    falling = False
+                    on_surface = True
+
+            # Bottom Left corners
+            elif y > top and x + cube_width < right:
+                bottom_overlap = x + cube_width - left
+                side_overlap = bottom - y
+                if side_overlap > bottom_overlap:
+                    x = left - cube_width
+                    if not on_surface:
+                        hit_wall = True
+                else:
+                    y = bottom
+                    hit_top = True
+
+
+
+
+
+
+
+
+# Levels
+level0 = {'blocks':[(0, 1080, 1920, 100)],
+          'triangles':[]}
+
+level1 = {'blocks': [(600, 1030, 720, 50), # long bottom
+                     (0, 780, 600, 300), # left big
+                     (1320, 780, 600, 300), # right big
+                     (760, 440, 400, 100), # middle
+                     (1625, 225, 300, 100)], # top right
+          'triangles': [((1625, 225), (1625, 324), (1525, 324))]}
+
+level2 = {'blocks':[(750, 930, 600, 100), # long bottom
+                    (0, 700, 500, 100), # left tower base
+                    (0, 450, 100, 100), # first tower jump
+                    (300, 200, 100, 100), # second tower jump
+                    (400, 200, 100, 350), # right tower wall
+                    (850, 350, 475, 100), # top middle
+                    (1525, 200, 250, 100)], # top right
+          'triangles':[]}
+
+level3 = {'blocks':[(1725, 925, 195, 100), # right bottom
+                    (1125, 925, 350, 100), # left bottom
+                    (951, 401, 199, 624), # tower
+                    (951, 0, 199, 150), # top tower
+                    (1475, 575, 200, 100), # middle right
+                    (500, 925, 200, 100), # landing platform
+                    (100, 675, 200, 100), # first climb
+                    (275, 325, 200, 100), # second climb
+                    (800, 100, 151, 50)],
+          'triangles':[((1050, 300), (1050, 400), (950, 400)),
+                       ((1050, 300), (1050, 400), (1150, 400))]}
+
+level4 = {'blocks':[(951, 829, 199, 251), # Tower
+                    (200, 880, 400, 100), # Left bottom
+                    (1350, 0, 100, 575), # bounce
+                    (1150, 1010, 75, 75), # landing platform
+                    (300, 580, 300, 100), # upper left bottom
+                    (1700, 900, 150, 100), # first climb
+                    (1450, 475, 100, 100), # second climb
+                    (1775, 210, 75, 40)], # third climb
+          'triangles':[((951, 630), (951, 829), (1150, 829))]}
+
+level5 = {'blocks':[(1350, 1030, 100, 50), # small extension
+                    (1050, 930, 400, 100), # first long bottom
+                    (500, 930, 400, 100), # second long bottom
+                    (1050, 350, 200, 450),  # right tower
+                    (800, 400, 100, 400),  # left tower
+                    (500, 400, 300, 100), # left long top
+                    (100, 650, 75, 75), # free floating left
+                    (1150, 250, 100, 100)], # block after triangle
+          'triangles':[((1149, 250), (1149, 350), (1050, 350))]}
+
+level6 = {'blocks':[(0, 980, 850, 100), # bottom left
+                    (1270, 980, 650, 100), # bottom right
+                    (600, 680, 720, 61), # tower base
+                    (600, 0, 61, 500), # left wall
+                    (1259, 0, 61, 500), # right wall
+                    (825, 390, 270, 61),# first tower jump
+                    (875, 140, 170, 61)], # second tower jump
+          'triangles':[]}
+
+level7 = {'blocks':[(600, 700, 61, 61), # top left wall
+                    (600, 900, 61, 180), # bottom left wall
+                    (1259, 700, 61, 380), # right wall
+                    (925, 970, 70, 61), # middle bottom platform
+                    (705, 446, 510, 255), # spire block
+                    (400, 900, 200, 61), # Balconay
+                    (75, 675, 61, 61), # first jump
+                    (425, 450, 61, 61), # second jump
+                    (75, 100, 61, 61), # third jump
+
+                    (1200, 0, 61, 250), # left tower wall Con.
+                    (1375, 0, 61, 125), # right tower wall Con.
+                    (1200, 250, 236, 61), # tower floor
+                    (1634, 0, 61, 165), # right tower left wall
+                    (1634, 300, 286, 61), # tower floor
+                    (1859, 75, 61, 61) # first tower stair
+                    ],
+          'triangles':[((960, 190), (960, 445), (705, 445)), # top left
+                       ((705, 445), (705, 700), (450, 700)), # bottom left
+                       ((960, 190), (960, 445), (1215, 445)), # top right
+                       ((1215, 445), (1215, 700), (1470, 700)), # bottom right
+                       ]}
+
+
+level8 = {'blocks':[(450, 900, 200, 61), # landing platform
+                    (1200, 930, 61, 150), # left tower wall
+                    (1375, 930, 61, 150), # right tower wall
+
+                    (1634, 500, 61, 580), # lower right tower left wall
+                    (1634, 300, 61, 75), # upper right tower left wall
+                    (1634, 239, 286, 61), # right tower roof
+                    (1695, 980, 61, 61), # second tower stair
+                    (1859, 730, 61, 61), # third tower stair
+                    (1515, 500, 119, 61), # balconey
+                    (655, 375, 200, 61) # middle jump
+                    ],
+          'triangles':[((1260, 869), (1260, 930), (1199, 930)), # left tower spike
+                       ((1375, 869), (1375, 930), (1436, 930)) # right tower spike
+                       ]}
+
+
+level9 = {'blocks':[(1634, 990, 130, 61), # landing block
+                    (1185, 675, 61, 176), # first jump
+                    (549, 775, 61, 176), # second jump
+                    (125, 475, 61, 126), # third jump
+                    (825, 200, 61, 126), # fourth jump
+                    (1325, 200, 61, 126), # fifth jump
+                    ],
+          'triangles':[((1185, 675), (1185, 850), (1010, 850)), # first jump
+                       ((610, 775), (610, 950), (785, 950)), # second jump
+                       ((186, 475), (186, 600), (311, 600)), # third jump
+                       ((825, 200), (825, 325), (700, 325)), # fourth jump
+                       ((1386, 200), (1386, 325), (1511, 325)), # fifth jump
+                       ]}
+
+
+level10 = {'blocks':[(1800, 900, 120, 61), # bottom right
+                     (1600, 0, 61, 125), # top right wall
+                     (1600, 300, 61, 250), # bottom right wall
+                     (1661, 300, 61, 61), # right balcony
+                     (259, 0, 61, 300), # top left wall
+                     (259, 400, 61, 150), # bottom left wall
+                     (320, 400, 61, 61), # left balcony
+                     (1250, 775, 61, 61), # first jump
+                     (450, 800, 61, 61), # second jump
+                     (175, 700, 61, 61), # third jump
+                     (1025, 300, 61, 61), # fourth jump
+                     (60, 199, 200, 20), # slope bottom
+                     ],
+           'triangles':[((259, 1), (259, 199), (60, 199)) # killer
+                       ]}
+
+
+level11 = {'blocks':[(1600, 400, 61, 450), # top right wall
+                     (1600, 1000, 61, 80), # bottom right wall
+                     (1361, 1000, 361, 61), # right bacony
+                     (380, 950, 275, 61), # left balcony
+                     (490, 400, 1110, 61), # top platform
+                     (380, 1010, 60, 70), # bottom by slope
+                     (265, 575, 61, 61), # last jump
+                     (490, 461, 61, 264), # bounce wall
+                     (0, 425, 100, 61) # no no no
+                     ],
+           'triangles':[((380, 950), (380, 1080), (250, 1080))
+                       ]}
+
+
+level12 = {'blocks':[],
+           'triangles':[]}
