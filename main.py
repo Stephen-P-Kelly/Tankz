@@ -12,6 +12,7 @@ size = width, height
 screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
 
 Player = pygame.image.load('sprites/player_body.png')
+wall = pygame.image.load('sprites/drawing.png')
 
 # # Colours
 # white = (255, 255, 255)
@@ -85,10 +86,10 @@ while True:
     screen.blit(Player, (player.left(), player.top()))
 
     wall1.draw(screen)
-    # screen.blit(Player, (500+70*0, 500))
-    # screen.blit(Player, (500+70*1, 500))
-    # screen.blit(Player, (500+70*2, 500))
-    # screen.blit(Player, (500+70*3, 500))
+    screen.blit(wall, (500+60*0, 500))
+    screen.blit(wall, (500+60*1, 500))
+    screen.blit(wall, (500+60*2, 500))
+    screen.blit(wall, (500+60*3, 500))
 
     pygame.display.update()
     clock.tick(60)
